@@ -2,7 +2,7 @@ package todo_test
 
 import (
     "io/ioutil"
-//    "os"
+    "os"
     "testing"
     "github.com/wkandek/rggo/todo"
 )
@@ -69,15 +69,14 @@ func TestSaveGet(t *testing.T){
     if err != nil {
         t.Fatalf("Error creating tem file %s", err)
     }
-    // defer os.Remove(tf.Name())
-    if err := l1.Save("abcd"); err != nil {
+    defer os.Remove(tf.Name())
+    if err := l1.Save(tf.Name()); err != nil {
         t.Fatalf("Error saving list to file: %s", err)
     }
-    if err := l2.Get("abcd"); err != nil {
+    if err := l2.Get(tf.Name()); err != nil {
         t.Fatalf("Error getting list to file: %s", err)
     }
     if l1[0].Task != l2[0].Task {
-        t.Errorf(" Task %q shoudl match %q", l1[0].Task, l2[0].Task)
+        t.Errorf(" Task %q should match %q", l1[0].Task, l2[0].Task)
     }
-    t.Errorf("%s", tf.Name())
 }
